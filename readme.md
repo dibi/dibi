@@ -2,10 +2,10 @@
 =========================================================
 
 [![Downloads this Month](https://img.shields.io/packagist/dm/dibi/dibi.svg)](https://packagist.org/packages/dibi/dibi)
-[![Tests](https://github.com/dg/dibi/workflows/Tests/badge.svg?branch=master)](https://github.com/dg/dibi/actions)
-[![Build Status Windows](https://ci.appveyor.com/api/projects/status/github/dg/dibi?branch=master&svg=true)](https://ci.appveyor.com/project/dg/dibi/branch/master)
-[![Latest Stable Version](https://poser.pugx.org/dibi/dibi/v/stable)](https://github.com/dg/dibi/releases)
-[![License](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://github.com/dg/dibi/blob/master/license.md)
+[![Tests](https://github.com/dibi/dibi/workflows/Tests/badge.svg?branch=master)](https://github.com/dibi/dibi/actions)
+[![Build Status Windows](https://ci.appveyor.com/api/projects/status/github/dibi/dibi?branch=master&svg=true)](https://ci.appveyor.com/project/dibi/dibi/branch/master)
+[![Latest Stable Version](https://poser.pugx.org/dibi/dibi/v/stable)](https://github.com/dibi/dibi/releases)
+[![License](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://github.com/dibi/dibi/blob/master/license.md)
 
 
 Introduction
