@@ -24,7 +24,7 @@ overrides:
 			- deprecations
 
 	- # the deprecated oldFetchAssoc() is the BC branch of fetchAssoc(); ping() wraps mysqli::ping()
-		paths: [src/Dibi/Result.php, src/Dibi/Drivers/MySqliDriver.php]
+		paths: [src/Dibi/Result.php, src/Dibi/Drivers/MySQLi/Connection.php]
 		upgrading: {declarations: {deprecatedMember: keep}}
 
 	- # renaming the public constants, the class dibi, _export() and _formatClause() would break compatibility

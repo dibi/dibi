@@ -1,11 +1,12 @@
 <?php declare(strict_types=1);
 
+use Dibi\Drivers\SQLSrv\{Connection, Result};
 use Tester\Assert;
 
 require __DIR__ . '/bootstrap.php';
 
 
-class MockDriver extends Dibi\Drivers\SqlsrvDriver
+class MockDriver extends Connection
 {
 	public function __construct()
 	{
@@ -17,14 +18,14 @@ class MockDriver extends Dibi\Drivers\SqlsrvDriver
 	}
 
 
-	public function query(string $sql): ?Dibi\Drivers\Result
+	public function query(string $sql): ?Result
 	{
 		return new MockResult;
 	}
 }
 
 
-class MockResult extends Dibi\Drivers\SqlsrvResult
+class MockResult extends Result
 {
 	public function __construct()
 	{

@@ -5,17 +5,17 @@
  * Copyright (c) 2005 David Grudl (https://davidgrudl.com)
  */
 
-namespace Dibi\Drivers;
+namespace Dibi\Drivers\Ibase;
 
 use Dibi;
-use Dibi\Helpers;
+use Dibi\{Drivers, Helpers};
 use function is_resource;
 
 
 /**
  * The driver for Firebird/InterBase result set.
  */
-class FirebirdResult implements Result
+class Result implements Drivers\Result
 {
 	public function __construct(
 		/** @var resource */
@@ -44,7 +44,7 @@ class FirebirdResult implements Result
 			: @ibase_fetch_row($this->resultSet, IBASE_TEXT); // @ is escalated to exception
 
 		if (ibase_errcode()) {
-			if ((int) ibase_errcode() === FirebirdDriver::ErrorExceptionThrown) {
+			if ((int) ibase_errcode() === Connection::ErrorExceptionThrown) {
 				preg_match('/exception (\d+) (\w+) (.*)/is', ibase_errmsg(), $match);
 				throw new Dibi\ProcedureException($match[3], (int) $match[1], $match[2]);
 

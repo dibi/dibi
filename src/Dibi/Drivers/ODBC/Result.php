@@ -5,16 +5,17 @@
  * Copyright (c) 2005 David Grudl (https://davidgrudl.com)
  */
 
-namespace Dibi\Drivers;
+namespace Dibi\Drivers\ODBC;
 
 use Dibi;
+use Dibi\Drivers;
 use function is_resource;
 
 
 /**
  * The driver interacting with result set via ODBC connections.
  */
-class OdbcResult implements Result
+class Result implements Drivers\Result
 {
 	private int $row = 0;
 

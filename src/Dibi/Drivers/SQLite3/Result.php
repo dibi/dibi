@@ -5,26 +5,26 @@
  * Copyright (c) 2005 David Grudl (https://davidgrudl.com)
  */
 
-namespace Dibi\Drivers;
+namespace Dibi\Drivers\SQLite3;
 
 use Dibi;
-use function is_resource;
+use Dibi\{Drivers, Helpers};
 
 
 /**
- * The driver for Oracle result set.
+ * The driver for SQLite result set.
  */
-class OracleResult implements Result
+class Result implements Drivers\Result
 {
 	public function __construct(
-		/** @var resource */
-		private $resultSet,
+		private readonly \SQLite3Result $resultSet,
 	) {
 	}
 
 
 	/**
 	 * Returns the number of rows in a result set.
+	 * @throws Dibi\NotSupportedException
 	 */
 	public function getRowCount(): int
 	{
@@ -38,16 +38,17 @@ class OracleResult implements Result
 	 */
 	public function fetch(bool $assoc): ?array
 	{
-		return Dibi\Helpers::false2Null(oci_fetch_array($this->resultSet, ($assoc ? OCI_ASSOC : OCI_NUM) | OCI_RETURN_NULLS));
+		return Helpers::false2Null($this->resultSet->fetchArray($assoc ? SQLITE3_ASSOC : SQLITE3_NUM));
 	}
 
 
 	/**
 	 * Moves cursor position without fetching row.
+	 * @throws Dibi\NotSupportedException
 	 */
 	public function seek(int $row): bool
 	{
-		throw new Dibi\NotImplementedException;
+		throw new Dibi\NotSupportedException('Cannot seek an unbuffered result set.');
 	}
 
 
@@ -56,7 +57,7 @@ class OracleResult implements Result
 	 */
 	public function free(): void
 	{
-		oci_free_statement($this->resultSet);
+		$this->resultSet->finalize();
 	}
 
 
@@ -65,16 +66,22 @@ class OracleResult implements Result
 	 */
 	public function getResultColumns(): array
 	{
-		$count = oci_num_fields($this->resultSet);
+		$count = $this->resultSet->numColumns();
 		$columns = [];
-		for ($i = 1; $i <= $count; $i++) {
-			$type = (string) oci_field_type($this->resultSet, $i);
+		$types = [
+			SQLITE3_INTEGER => 'int',
+			SQLITE3_FLOAT => 'float',
+			SQLITE3_TEXT => 'text',
+			SQLITE3_BLOB => 'blob',
+			SQLITE3_NULL => 'null',
+		];
+		for ($i = 0; $i < $count; $i++) {
+			$name = (string) $this->resultSet->columnName($i);
 			$columns[] = [
-				'name' => (string) oci_field_name($this->resultSet, $i),
+				'name' => $name,
 				'table' => null,
-				'fullname' => (string) oci_field_name($this->resultSet, $i),
-				'type' => $type === 'LONG' ? Dibi\Type::Text : null,
-				'nativetype' => $type === 'NUMBER' && oci_field_scale($this->resultSet, $i) === 0 ? 'INTEGER' : $type,
+				'fullname' => $name,
+				'nativetype' => $types[$this->resultSet->columnType($i)] ?? '',
 			];
 		}
 
@@ -84,11 +91,10 @@ class OracleResult implements Result
 
 	/**
 	 * Returns the result set resource.
-	 * @return resource|null
 	 */
-	public function getResultResource(): mixed
+	public function getResultResource(): \SQLite3Result
 	{
-		return is_resource($this->resultSet) ? $this->resultSet : null;
+		return $this->resultSet;
 	}
 
 

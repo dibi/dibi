@@ -5,10 +5,10 @@
  * Copyright (c) 2005 David Grudl (https://davidgrudl.com)
  */
 
-namespace Dibi\Drivers;
+namespace Dibi\Drivers\SQLite3;
 
 use Dibi;
-use Dibi\Helpers;
+use Dibi\{Drivers, Helpers};
 use SQLite3;
 use function extension_loaded;
 
@@ -22,7 +22,7 @@ use function extension_loaded;
  *   - formatDateTime => how to format datetime in SQL (@see date)
  *   - resource (SQLite3) => existing connection resource
  */
-class SqliteDriver implements Connection
+class Connection implements Drivers\Connection
 {
 	private SQLite3 $connection;
 	private string $fmtDate;
@@ -176,18 +176,18 @@ class SqliteDriver implements Connection
 	/**
 	 * Returns the connection reflector.
 	 */
-	public function getReflector(): Engine
+	public function getReflector(): Drivers\Engine
 	{
-		return new SqliteReflector($this);
+		return new Drivers\Engines\SQLiteEngine($this);
 	}
 
 
 	/**
 	 * Result set driver factory.
 	 */
-	public function createResultDriver(\SQLite3Result $result): SqliteResult
+	public function createResultDriver(\SQLite3Result $result): Result
 	{
-		return new SqliteResult($result);
+		return new Result($result);
 	}
 
 
