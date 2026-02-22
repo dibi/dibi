@@ -25,7 +25,7 @@ use function extension_loaded, is_array, strlen;
  *   - resource (PgSql\Connection) => existing connection resource
  *   - connect_type (int) => see pg_connect()
  */
-class PostgreDriver implements Dibi\Driver
+class PostgreDriver implements Connection
 {
 	private PgSql\Connection $connection;
 	private ?int $affectedRows;
@@ -116,7 +116,7 @@ class PostgreDriver implements Dibi\Driver
 	 * Executes the SQL query.
 	 * @throws Dibi\DriverException
 	 */
-	public function query(string $sql): ?Dibi\ResultDriver
+	public function query(string $sql): ?Result
 	{
 		$this->affectedRows = null;
 		$res = @pg_query($this->connection, $sql); // @ is escalated to exception
@@ -240,7 +240,7 @@ class PostgreDriver implements Dibi\Driver
 	/**
 	 * Returns the connection reflector.
 	 */
-	public function getReflector(): Dibi\Reflector
+	public function getReflector(): Engine
 	{
 		return new PostgreReflector($this);
 	}

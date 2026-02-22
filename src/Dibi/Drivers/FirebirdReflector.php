@@ -7,16 +7,14 @@
 
 namespace Dibi\Drivers;
 
-use Dibi;
-
 
 /**
  * The reflector for Firebird/InterBase database.
  */
-class FirebirdReflector implements Dibi\Reflector
+class FirebirdReflector implements Engine
 {
 	public function __construct(
-		private readonly Dibi\Driver $driver,
+		private readonly Connection $driver,
 	) {
 	}
 

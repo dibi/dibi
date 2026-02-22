@@ -15,7 +15,7 @@ use function count, gettype, is_array, is_bool, is_float, is_int, is_object, is_
  */
 final class Translator
 {
-	private readonly Driver $driver;
+	private readonly Drivers\Connection $driver;
 	private int $cursor = 0;
 
 	/** @var list<mixed>  SQL arguments */

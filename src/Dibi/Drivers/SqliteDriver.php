@@ -22,7 +22,7 @@ use function extension_loaded;
  *   - formatDateTime => how to format datetime in SQL (@see date)
  *   - resource (SQLite3) => existing connection resource
  */
-class SqliteDriver implements Dibi\Driver
+class SqliteDriver implements Connection
 {
 	private SQLite3 $connection;
 	private string $fmtDate;
@@ -75,7 +75,7 @@ class SqliteDriver implements Dibi\Driver
 	 * Executes the SQL query.
 	 * @throws Dibi\DriverException
 	 */
-	public function query(string $sql): ?Dibi\ResultDriver
+	public function query(string $sql): ?Result
 	{
 		$res = @$this->connection->query($sql); // @ is escalated to exception
 		if ($code = $this->connection->lastErrorCode()) {
@@ -176,7 +176,7 @@ class SqliteDriver implements Dibi\Driver
 	/**
 	 * Returns the connection reflector.
 	 */
-	public function getReflector(): Dibi\Reflector
+	public function getReflector(): Engine
 	{
 		return new SqliteReflector($this);
 	}

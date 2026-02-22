@@ -39,7 +39,7 @@ class Table
 
 	/** @param  array{name: string, view?: bool}  $info */
 	public function __construct(
-		private readonly Dibi\Reflector $reflector,
+		private readonly Dibi\Drivers\Engine $reflector,
 		array $info,
 	) {
 		$this->name = $info['name'];

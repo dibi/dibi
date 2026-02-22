@@ -23,7 +23,7 @@ use function extension_loaded, ini_get, is_resource;
  *   - buffers (int) => number of database buffers for the server-side cache; if 0 or omitted, server chooses its own default
  *   - resource (resource) => existing connection resource
  */
-class FirebirdDriver implements Dibi\Driver
+class FirebirdDriver implements Connection
 {
 	public const ErrorExceptionThrown = -836;
 
@@ -87,7 +87,7 @@ class FirebirdDriver implements Dibi\Driver
 	 * Executes the SQL query.
 	 * @throws Dibi\DriverException|Dibi\Exception
 	 */
-	public function query(string $sql): ?Dibi\ResultDriver
+	public function query(string $sql): ?Result
 	{
 		$resource = $this->inTransaction
 			? $this->transaction ?? $this->connection
@@ -202,7 +202,7 @@ class FirebirdDriver implements Dibi\Driver
 	/**
 	 * Returns the connection reflector.
 	 */
-	public function getReflector(): Dibi\Reflector
+	public function getReflector(): Engine
 	{
 		return new FirebirdReflector($this);
 	}
