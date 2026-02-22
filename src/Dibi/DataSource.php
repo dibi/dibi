@@ -40,7 +40,7 @@ class DataSource implements IDataSource
 		private readonly Connection $connection,
 	) {
 		$this->sql = strpbrk($sql, " \t\r\n") === false
-			? $connection->getDriver()->escapeIdentifier($sql) // table name
+			? $connection->getDatabaseEngine()->escapeIdentifier($sql) // table name
 			: '(' . $sql . ') t'; // SQL command
 	}
 
