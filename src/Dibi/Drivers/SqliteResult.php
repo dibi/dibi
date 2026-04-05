@@ -71,10 +71,11 @@ class SqliteResult implements Dibi\ResultDriver
 		$columns = [];
 		$types = [SQLITE3_INTEGER => 'int', SQLITE3_FLOAT => 'float', SQLITE3_TEXT => 'text', SQLITE3_BLOB => 'blob', SQLITE3_NULL => 'null'];
 		for ($i = 0; $i < $count; $i++) {
+			$name = (string) $this->resultSet->columnName($i);
 			$columns[] = [
-				'name' => $this->resultSet->columnName($i),
+				'name' => $name,
 				'table' => null,
-				'fullname' => $this->resultSet->columnName($i),
+				'fullname' => $name,
 				'nativetype' => $types[$this->resultSet->columnType($i)] ?? '',
 			];
 		}
