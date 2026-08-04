@@ -215,6 +215,7 @@ class PdoDriver implements Dibi\Driver
 	{
 		return match ($this->driverName) {
 			'odbc' => "'" . str_replace("'", "''", $value) . "'",
+			'sqlite' => "X'" . bin2hex($value) . "'",
 			'sqlsrv' => '0x' . bin2hex($value),
 			default => $this->connection->quote($value, PDO::PARAM_LOB),
 		};
