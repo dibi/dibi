@@ -14,6 +14,12 @@ Dibi has several non-trivial, cross-file mechanisms with counterintuitive traps
 type normalization, Fluent's global config). Read the relevant `docs/internals/`
 seam before editing one.
 
+`docs/upgrading.md` records, per released version, every change visible to
+users of the package (renames, removals, deprecations, signatures, behavior,
+configuration), each with its commit hash; internal changes are not in it. It
+is the place to look up the history of a public symbol. Do not write to it; it
+is extended at release time from the git history.
+
 ## Project Overview
 
 **Dibi** is a standalone PHP database abstraction library (DBAL) with a unified
