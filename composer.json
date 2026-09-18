@@ -2,7 +2,7 @@
 	"name": "dibi/dibi",
 	"description": "💽 Dibi: smart database layer for PHP. You write SQL, and placeholders turn arrays into conditions or rows and escape values and identifiers correctly for MySQL, PostgreSQL, SQLite, SQL Server, Oracle and more.",
 	"keywords": ["database", "dbal", "sql", "query builder", "mysql", "postgresql", "sqlite", "mssql", "oracle", "pdo", "odbc"],
-	"homepage": "https://dibi.nette.org",
+	"homepage": "https://dibi.deegee.dev",
 	"license": ["BSD-3-Clause", "GPL-2.0-only", "GPL-3.0-only"],
 	"authors": [
 		{
