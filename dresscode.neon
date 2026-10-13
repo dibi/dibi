@@ -1,0 +1,41 @@
+use:
+	- nette
+	- modernizations
+
+typeAnalysis: phpstan
+
+paths:
+	- src
+	- tests
+	- examples
+
+fileExtensions:
+	- php
+	- phpt
+
+imports: {grouping: {class: grouped}}
+
+overrides:
+	-
+		paths: [src]
+		nameResolution: certain
+		use:
+			- compilerOptimizations
+			- deprecations
+
+	- # the deprecated oldFetchAssoc() is the BC branch of fetchAssoc(); ping() wraps mysqli::ping()
+		paths: [src/Dibi/Result.php, src/Dibi/Drivers/MySqliDriver.php]
+		upgrading: {declarations: {deprecatedMember: keep}}
+
+	- # renaming the public constants, the class dibi, _export() and _formatClause() would break compatibility
+		paths: [src/Dibi/Event.php, src/Dibi/Type.php, src/Dibi/dibi.php, src/Dibi/Fluent.php]
+		naming: {constant: keep, class: keep, method: keep}
+
+	- # renaming a parameter breaks calls with named arguments
+		paths: [src/Dibi/Row.php, src/Dibi/Drivers]
+		classes: {overridingMethod: {parameterName: keep}}
+
+	- # SQL fragments interleaved with their arguments are what the examples show
+		paths: [examples/query-language-and-conditions.php, examples/query-language-basic-examples.php, examples/using-datetime.php, examples/using-substitutions.php]
+		multiline: {items: {argument: keep}, edges: {argument: keep}}
+		indentation: {unit: keep}
