@@ -8,7 +8,6 @@
 namespace Dibi\Reflection;
 
 
-
 /**
  * Reflection metadata class for a index or primary key.
  *

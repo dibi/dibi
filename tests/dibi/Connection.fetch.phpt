@@ -68,17 +68,18 @@ Assert::equal([
 ], $res->fetchAssoc('title'));
 
 
-
 // more complex association array
 function query($conn)
 {
-	return $conn->query(in_array($conn->getConfig('system'), ['odbc', 'sqlsrv'], true) ? '
+	return $conn->query(in_array($conn->getConfig('system'), ['odbc', 'sqlsrv'], true)
+		? '
 		SELECT products.title, customers.name, orders.amount
 		FROM ([products]
 		INNER JOIN [orders] ON [products.product_id] = [orders.product_id])
 		INNER JOIN [customers] ON [orders.customer_id] = [customers.customer_id]
 		ORDER BY orders.order_id
-	' : '
+	'
+		: '
 		SELECT products.title AS title, customers.name AS name, orders.amount AS amount
 		FROM [products]
 		INNER JOIN [orders] USING ([product_id])
@@ -179,11 +180,14 @@ Assert::equal([
 Assert::equal([
 	new Row(['title' => 'Chair', 'name' => 'Arnold Rimmer', 'amount' => num(7.0)]),
 	new Row([
-		'title' => 'Computer', 'name' => 'Arnold Rimmer', 'amount' => num(2.0), ]),
+		'title' => 'Computer', 'name' => 'Arnold Rimmer', 'amount' => num(2.0),
+	]),
 	new Row([
-		'title' => 'Table', 'name' => 'Dave Lister', 'amount' => num(3.0), ]),
+		'title' => 'Table', 'name' => 'Dave Lister', 'amount' => num(3.0),
+	]),
 	new Row([
-		'title' => 'Computer', 'name' => 'Kristine Kochanski', 'amount' => num(5.0), ]),
+		'title' => 'Computer', 'name' => 'Kristine Kochanski', 'amount' => num(5.0),
+	]),
 ], query($conn)->fetchAssoc('@,='));
 
 

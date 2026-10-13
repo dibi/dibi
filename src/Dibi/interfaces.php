@@ -14,8 +14,8 @@ namespace Dibi;
  */
 interface IDataSource extends \Countable, \IteratorAggregate
 {
-	//function \IteratorAggregate::getIterator();
-	//function \Countable::count();
+	// function \IteratorAggregate::getIterator();
+	// function \Countable::count();
 }
 
 
@@ -121,11 +121,11 @@ interface ResultDriver
 
 	/**
 	 * Fetches the row at current position and moves the internal cursor to the next position.
-	 * @param  bool  $type  true for associative array, false for numeric
+	 * @param  bool  $assoc  true for associative array, false for numeric
 	 * @return mixed[]|null
 	 * @internal
 	 */
-	function fetch(bool $type): ?array;
+	function fetch(bool $assoc): ?array;
 
 	/**
 	 * Frees the resources allocated for this result set.

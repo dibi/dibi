@@ -4,9 +4,7 @@
  * PHPStan type tests for Dibi.
  */
 
-use Dibi\Connection;
-use Dibi\Fluent;
-use Dibi\Row;
+use Dibi\{Connection, Fluent, Row};
 use function PHPStan\Testing\assertType;
 
 

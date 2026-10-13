@@ -33,7 +33,7 @@ class FirebirdReflector implements Dibi\Reflector
 			WHERE RDB\$SYSTEM_FLAG = 0;
 		") ?? throw new \LogicException('Unexpected null result.');
 		$tables = [];
-		while ($row = $res->fetch(false)) {
+		while ($row = $res->fetch(assoc: false)) {
 			$tables[] = [
 				'name' => $row[0],
 				'view' => $row[1] === 'TRUE',
@@ -80,7 +80,7 @@ class FirebirdReflector implements Dibi\Reflector
 			ORDER BY r.RDB\$FIELD_POSITION;
 		") ?? throw new \LogicException('Unexpected null result.');
 		$columns = [];
-		while ($row = $res->fetch(true)) {
+		while ($row = $res->fetch(assoc: true)) {
 			$key = $row['FIELD_NAME'];
 			$columns[$key] = [
 				'name' => $key,
@@ -117,7 +117,7 @@ class FirebirdReflector implements Dibi\Reflector
 			ORDER BY s.RDB\$FIELD_POSITION
 		") ?? throw new \LogicException('Unexpected null result.');
 		$indexes = [];
-		while ($row = $res->fetch(true)) {
+		while ($row = $res->fetch(assoc: true)) {
 			$key = $row['INDEX_NAME'];
 			$indexes[$key]['name'] = $key;
 			$indexes[$key]['unique'] = $row['UNIQUE_FLAG'] === 1;
@@ -146,7 +146,7 @@ class FirebirdReflector implements Dibi\Reflector
 			ORDER BY s.RDB\$FIELD_POSITION
 		") ?? throw new \LogicException('Unexpected null result.');
 		$keys = [];
-		while ($row = $res->fetch(true)) {
+		while ($row = $res->fetch(assoc: true)) {
 			$key = $row['INDEX_NAME'];
 			$keys[$key] = [
 				'name' => $key,
@@ -173,7 +173,7 @@ class FirebirdReflector implements Dibi\Reflector
 				AND RDB\$FOREIGN_KEY IS NULL;
 		") ?? throw new \LogicException('Unexpected null result.');
 		$indices = [];
-		while ($row = $res->fetch(false)) {
+		while ($row = $res->fetch(assoc: false)) {
 			$indices[] = $row[0];
 		}
 
@@ -197,7 +197,7 @@ class FirebirdReflector implements Dibi\Reflector
 			);
 		") ?? throw new \LogicException('Unexpected null result.');
 		$constraints = [];
-		while ($row = $res->fetch(false)) {
+		while ($row = $res->fetch(assoc: false)) {
 			$constraints[] = $row[0];
 		}
 
@@ -240,7 +240,7 @@ class FirebirdReflector implements Dibi\Reflector
 			. ($table === null ? ';' : " AND RDB\$RELATION_NAME = UPPER('$table');"),
 		) ?? throw new \LogicException('Unexpected null result.');
 		$triggers = [];
-		while ($row = $res->fetch(true)) {
+		while ($row = $res->fetch(assoc: true)) {
 			$triggers[$row['TRIGGER_NAME']] = [
 				'name' => $row['TRIGGER_NAME'],
 				'table' => $row['TABLE_NAME'],
@@ -270,7 +270,7 @@ class FirebirdReflector implements Dibi\Reflector
 
 		$res = $this->driver->query($q) ?? throw new \LogicException('Unexpected null result.');
 		$triggers = [];
-		while ($row = $res->fetch(false)) {
+		while ($row = $res->fetch(assoc: false)) {
 			$triggers[] = $row[0];
 		}
 
@@ -317,7 +317,7 @@ class FirebirdReflector implements Dibi\Reflector
 			ORDER BY p.RDB\$PARAMETER_TYPE, p.RDB\$PARAMETER_NUMBER;
 		") ?? throw new \LogicException('Unexpected null result.');
 		$procedures = [];
-		while ($row = $res->fetch(true)) {
+		while ($row = $res->fetch(assoc: true)) {
 			$key = $row['PROCEDURE_NAME'];
 			$io = trim($row['PARAMETER_TYPE']);
 			$num = $row['PARAMETER_NUMBER'];
@@ -342,7 +342,7 @@ class FirebirdReflector implements Dibi\Reflector
 			FROM RDB$PROCEDURES;
 		') ?? throw new \LogicException('Unexpected null result.');
 		$procedures = [];
-		while ($row = $res->fetch(false)) {
+		while ($row = $res->fetch(assoc: false)) {
 			$procedures[] = $row[0];
 		}
 
@@ -362,7 +362,7 @@ class FirebirdReflector implements Dibi\Reflector
 			WHERE RDB$SYSTEM_FLAG = 0;
 		') ?? throw new \LogicException('Unexpected null result.');
 		$generators = [];
-		while ($row = $res->fetch(false)) {
+		while ($row = $res->fetch(assoc: false)) {
 			$generators[] = $row[0];
 		}
 
@@ -382,7 +382,7 @@ class FirebirdReflector implements Dibi\Reflector
 			WHERE RDB$SYSTEM_FLAG = 0;
 		') ?? throw new \LogicException('Unexpected null result.');
 		$functions = [];
-		while ($row = $res->fetch(false)) {
+		while ($row = $res->fetch(assoc: false)) {
 			$functions[] = $row[0];
 		}
 

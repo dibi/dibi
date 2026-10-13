@@ -51,7 +51,7 @@ Assert::type('string', $column->getNativeType());
 Assert::same($config['system'] === 'sqlsrv' ? 50 : 100, $column->getSize());
 Assert::false($column->isNullable());
 Assert::false($column->isAutoIncrement());
-//Assert::null($column->getDefault());
+// Assert::null($column->getDefault());
 
 
 $indexes = $table->getIndexes();

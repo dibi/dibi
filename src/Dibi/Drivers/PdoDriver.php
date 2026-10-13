@@ -236,11 +236,9 @@ class PdoDriver implements Dibi\Driver
 
 	public function escapeBool(bool $value): string
 	{
-		if ($this->driverName === 'pgsql') {
-			return $value ? 'TRUE' : 'FALSE';
-		} else {
-			return $value ? '1' : '0';
-		}
+		return $this->driverName === 'pgsql'
+			? ($value ? 'TRUE' : 'FALSE')
+			: ($value ? '1' : '0');
 	}
 
 

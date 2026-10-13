@@ -55,7 +55,9 @@ class PostgreDriver implements Dibi\Driver
 				$string = '';
 				Helpers::alias($config, 'user', 'username');
 				Helpers::alias($config, 'dbname', 'database');
-				foreach (['host', 'hostaddr', 'port', 'dbname', 'user', 'password', 'connect_timeout', 'options', 'sslmode', 'service'] as $key) {
+				foreach ([
+					'host', 'hostaddr', 'port', 'dbname', 'user', 'password', 'connect_timeout', 'options', 'sslmode', 'service',
+				] as $key) {
 					if (isset($config[$key])) {
 						$string .= $key . '=' . $config[$key] . ' ';
 					}
@@ -182,7 +184,7 @@ class PostgreDriver implements Dibi\Driver
 			return null;
 		}
 
-		$row = $res->fetch(false);
+		$row = $res->fetch(assoc: false);
 		return is_array($row) ? (int) $row[0] : null;
 	}
 

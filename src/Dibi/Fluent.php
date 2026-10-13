@@ -56,7 +56,7 @@ class Fluent implements IDataSource
 	/** @var array<string, list<string>> */
 	public static array $masks = [
 		'SELECT' => ['SELECT', 'DISTINCT', 'FROM', 'WHERE', 'GROUP BY',
-			'HAVING', 'ORDER BY', 'LIMIT', 'OFFSET', ],
+			'HAVING', 'ORDER BY', 'LIMIT', 'OFFSET'],
 		'UPDATE' => ['UPDATE', 'SET', 'WHERE', 'ORDER BY', 'LIMIT'],
 		'INSERT' => ['INSERT', 'INTO', 'VALUES', 'SELECT'],
 		'DELETE' => ['DELETE', 'FROM', 'USING', 'WHERE', 'ORDER BY', 'LIMIT'],
@@ -429,7 +429,7 @@ class Fluent implements IDataSource
 		if ($clause === null) {
 			$data = $this->clauses;
 			if ($this->command === 'SELECT' && ($data['LIMIT'] || $data['OFFSET'])) {
-				$args = array_merge(['%lmt %ofs', $data['LIMIT'][0] ?? null, $data['OFFSET'][0] ?? null], $args);
+				$args = ['%lmt %ofs', $data['LIMIT'][0] ?? null, $data['OFFSET'][0] ?? null, ...$args];
 				unset($data['LIMIT'], $data['OFFSET']);
 			}
 		} else {

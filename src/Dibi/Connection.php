@@ -330,10 +330,7 @@ class Connection implements IConnection
 			assert($this->driver !== null);
 		}
 
-		$id = $this->driver->getInsertId($sequence);
-		if ($id === null) {
-			throw new Exception('Cannot retrieve last generated ID.');
-		}
+		$id = $this->driver->getInsertId($sequence) ?? throw new Exception('Cannot retrieve last generated ID.');
 
 		return $id;
 	}
@@ -504,7 +501,8 @@ class Connection implements IConnection
 		}
 
 		return $this->command()->insert()
-			->into('%n', $table, '(%n)', array_keys($args))->values('%l', $args);
+			->into('%n', $table, '(%n)', array_keys($args))
+			->values('%l', $args);
 	}
 
 

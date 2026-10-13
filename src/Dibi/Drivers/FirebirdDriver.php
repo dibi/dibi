@@ -20,7 +20,7 @@ use function extension_loaded, ini_get, is_resource;
  *   - username (or user)
  *   - password (or pass)
  *   - charset => character encoding to set
- *   - buffers (int) => buffers is the number of database buffers to allocate for the server-side cache. If 0 or omitted, server chooses its own default.
+ *   - buffers (int) => number of database buffers for the server-side cache; if 0 or omitted, server chooses its own default
  *   - resource (resource) => existing connection resource
  */
 class FirebirdDriver implements Dibi\Driver
@@ -94,7 +94,7 @@ class FirebirdDriver implements Dibi\Driver
 			: $this->connection;
 		$res = ibase_query($resource, $sql);
 		if (!is_resource($res)) {
-			if ((int) ibase_errcode() === self::ERROR_EXCEPTION_THROWN) {
+			if ((int) ibase_errcode() === self::ErrorExceptionThrown) {
 				preg_match('/exception (\d+) (\w+) (.*)/i', ibase_errmsg(), $match);
 				throw new Dibi\ProcedureException($match[3], (int) $match[1], $match[2], $sql);
 

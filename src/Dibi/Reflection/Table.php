@@ -23,9 +23,8 @@ use Dibi;
  */
 class Table
 {
-	private readonly Dibi\Reflector $reflector;
-	private string $name;
-	private bool $view;
+	private readonly string $name;
+	private readonly bool $view;
 
 	/** @var Column[] */
 	private array $columns;
@@ -39,9 +38,10 @@ class Table
 
 
 	/** @param  array{name: string, view?: bool}  $info */
-	public function __construct(Dibi\Reflector $reflector, array $info)
-	{
-		$this->reflector = $reflector;
+	public function __construct(
+		private readonly Dibi\Reflector $reflector,
+		array $info,
+	) {
 		$this->name = $info['name'];
 		$this->view = !empty($info['view']);
 	}

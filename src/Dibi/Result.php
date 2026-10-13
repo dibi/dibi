@@ -164,7 +164,7 @@ class Result implements IDataSource
 	 */
 	final public function fetch(): mixed
 	{
-		$row = $this->getResultDriver()->fetch(true);
+		$row = $this->getResultDriver()->fetch(assoc: true);
 		if ($row === null) {
 			return null;
 		}
@@ -187,7 +187,7 @@ class Result implements IDataSource
 	 */
 	final public function fetchSingle(): mixed
 	{
-		$row = $this->getResultDriver()->fetch(true);
+		$row = $this->getResultDriver()->fetch(assoc: true);
 		if ($row === null) {
 			return null;
 		}
@@ -527,11 +527,9 @@ class Result implements IDataSource
 					: $value;
 
 			} elseif ($type === Type::JSON) {
-				if ($format === 'string') { // back compatibility with 'native'
-					$row[$key] = $value;
-				} else {
-					$row[$key] = json_decode($value, $format === 'array');
-				}
+				$row[$key] = $format === 'string' // back compatibility with 'native'
+					? $value
+					: json_decode($value, $format === 'array');
 			} else {
 				throw new \RuntimeException('Unexpected type ' . $type);
 			}

@@ -31,8 +31,10 @@ Assert::equal([
 if (!in_array($config['system'], ['odbc', 'sqlsrv'], true)) {
 	$res = $conn->select(['products.title' => 'title', 'customers.name' => 'name'])->select('orders.amount')->as('amount')
 		->from('products')
-		->innerJoin('orders')->using('(product_id)')
-		->innerJoin('customers')->using('([customer_id])')
+		->innerJoin('orders')
+		->using('(product_id)')
+		->innerJoin('customers')
+		->using('([customer_id])')
 		->orderBy('order_id');
 
 	Assert::equal([

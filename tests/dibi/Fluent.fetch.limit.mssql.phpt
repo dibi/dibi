@@ -37,7 +37,7 @@ class MockResult extends Dibi\Drivers\SqlsrvResult
 	}
 
 
-	public function fetch(bool $type): ?array
+	public function fetch(bool $assoc): ?array
 	{
 		return null;
 	}

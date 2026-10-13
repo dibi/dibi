@@ -29,7 +29,8 @@ $record = [
 $dibi->select('product_id')->as('id')
 	->select('title')
 	->from('products')
-	->innerJoin('orders')->using('(product_id)')
+	->innerJoin('orders')
+	->using('(product_id)')
 	->innerJoin('customers USING (customer_id)')
 	->orderBy('title')
 	->test();

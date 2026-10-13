@@ -15,7 +15,6 @@ use function func_get_args, is_array;
  */
 class DataSource implements IDataSource
 {
-	private readonly Connection $connection;
 	private readonly string $sql;
 	private ?Result $result = null;
 	private ?int $count = null;
@@ -36,12 +35,13 @@ class DataSource implements IDataSource
 	/**
 	 * @param  string  $sql  command or table or view name, as data source
 	 */
-	public function __construct(string $sql, Connection $connection)
-	{
+	public function __construct(
+		string $sql,
+		private readonly Connection $connection,
+	) {
 		$this->sql = strpbrk($sql, " \t\r\n") === false
 			? $connection->getDriver()->escapeIdentifier($sql) // table name
 			: '(' . $sql . ') t'; // SQL command
-		$this->connection = $connection;
 	}
 
 

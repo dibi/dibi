@@ -15,7 +15,8 @@ $arr = [
 ];
 
 $fluent = $conn->update('table', $arr)
-	->setFlag('IGNORE')->setFlag('DELAYED');
+	->setFlag('IGNORE')
+	->setFlag('DELAYED');
 
 Assert::same(
 	reformat('UPDATE IGNORE DELAYED [table] SET [title]=\'Super Product\', [price]=12, [brand]=NULL'),

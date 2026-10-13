@@ -136,7 +136,8 @@ class OracleDriver implements Dibi\Driver
 	 */
 	public function getInsertId(?string $sequence): ?int
 	{
-		$row = ($this->query("SELECT $sequence.CURRVAL AS ID FROM DUAL") ?? throw new \LogicException('Unexpected null result.'))->fetch(true);
+		$res = $this->query("SELECT $sequence.CURRVAL AS ID FROM DUAL") ?? throw new \LogicException('Unexpected null result.');
+		$row = $res->fetch(assoc: true);
 		return isset($row['ID']) ? Dibi\Helpers::intVal($row['ID']) : null;
 	}
 

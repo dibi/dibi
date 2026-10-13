@@ -139,7 +139,7 @@ test('Invalid translator', function () use ($conn) {
 	);
 
 	Assert::exception(
-		fn() => $conn->setObjectTranslator(fn(Email|null $email) => 'foo'),
+		fn() => $conn->setObjectTranslator(fn(?Email $email) => 'foo'),
 		Dibi\Exception::class,
 		"Object translator must have exactly one parameter with non-nullable class typehint, got '?Email'.",
 	);

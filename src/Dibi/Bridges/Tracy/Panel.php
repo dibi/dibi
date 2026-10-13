@@ -8,8 +8,7 @@
 namespace Dibi\Bridges\Tracy;
 
 use Dibi;
-use Dibi\Event;
-use Dibi\Helpers;
+use Dibi\{Event, Helpers};
 use Tracy;
 use function count, is_string, strlen;
 
@@ -133,13 +132,17 @@ class Panel implements Tracy\IBarPanel
 				$s .= "<br /><a href='#tracy-debug-DibiProfiler-row-$counter' class='tracy-toggle tracy-collapsed' rel='#tracy-debug-DibiProfiler-row-$counter'>explain</a>";
 			}
 
-			$s .= '</td><td class="tracy-DibiProfiler-sql">' . Helpers::dump(strlen($event->sql) > self::$maxLength ? substr($event->sql, 0, self::$maxLength) . '...' : $event->sql, return: true);
+			$s .= '</td><td class="tracy-DibiProfiler-sql">'
+				. Helpers::dump(
+					strlen($event->sql) > self::$maxLength ? substr($event->sql, 0, self::$maxLength) . '...' : $event->sql,
+					return: true,
+				);
 			if ($explain) {
 				$s .= "<div id='tracy-debug-DibiProfiler-row-$counter' class='tracy-collapsed'>{$explain}</div>";
 			}
 
 			if ($event->source) {
-				$s .= Tracy\Helpers::editorLink($event->source[0], $event->source[1]); //->class('tracy-DibiProfiler-source');
+				$s .= Tracy\Helpers::editorLink($event->source[0], $event->source[1]); // ->class('tracy-DibiProfiler-source');
 			}
 
 			$s .= "</td><td>{$event->count}</td>";
@@ -152,8 +155,8 @@ class Panel implements Tracy\IBarPanel
 			#tracy-debug .tracy-DibiProfiler-source { color: #999 !important }
 			#tracy-debug tracy-DibiProfiler tr table { margin: 8px 0; max-height: 150px; overflow:auto } </style>
 			<h1>Queries:' . "\u{a0}" . count($this->events)
-				. ", time:\u{a0}" . number_format($totalTime * 1000, 1, '.', "\u{202f}") . "\u{202f}ms"
-				. ($singleConnection === null ? '' : ', ' . htmlspecialchars($this->getConnectionName($singleConnection))) . '</h1>
+			. ", time:\u{a0}" . number_format($totalTime * 1000, 1, '.', "\u{202f}") . "\u{202f}ms"
+			. ($singleConnection === null ? '' : ', ' . htmlspecialchars($this->getConnectionName($singleConnection))) . '</h1>
 			<div class="tracy-inner tracy-DibiProfiler">
 			<table class="tracy-sortable">
 				<tr><th>Time&nbsp;ms</th><th>SQL Statement</th><th>Rows</th>' . (!$singleConnection ? '<th>Connection</th>' : '') . '</tr>

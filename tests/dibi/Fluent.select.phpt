@@ -17,7 +17,8 @@ $min = 5;
 
 $fluent = $conn->select('*')
 	->select('a')
-	->select('b')->as('bAlias')
+	->select('b')
+	->as('bAlias')
 	->select(['c', 'd', 'e'])
 	->select('%n', 'd');
 
@@ -27,8 +28,10 @@ Assert::same(
 );
 
 $fluent->from('table')->as('table.Alias')
-	->innerJoin('table1')->on('table.col = table1.col')
-	->innerJoin('table2')->on('table.col = table2.col');
+	->innerJoin('table1')
+	->on('table.col = table1.col')
+	->innerJoin('table2')
+	->on('table.col = table2.col');
 
 Assert::same(
 	reformat('SELECT * , [a] , [b] AS [bAlias] , [c], [d], [e] , [d] FROM [table] AS [table.Alias] INNER JOIN [table1] ON table.col = table1.col INNER JOIN [table2] ON table.col = table2.col'),
@@ -62,8 +65,10 @@ Assert::same(
 $fluent->where('col > %i', $max)
 	->or('col < %i', $min)
 	->where('active = 1')
-	->where('col')->in([1, 2, 3])
-	->orderBy('val')->asc()
+	->where('col')
+	->in([1, 2, 3])
+	->orderBy('val')
+	->asc()
 	->orderBy('[val2] DESC')
 	->orderBy(['val3' => -1]);
 
@@ -83,10 +88,12 @@ Assert::same(
 $fluent = $conn->select('*')
 	->select(
 		$conn->select('count(*)')
-		->from('precteni')->as('P')
-		->where('P.id_clanku', '=', 'C.id_clanku'),
+			->from('precteni')
+				->as('P')
+			->where('P.id_clanku', '=', 'C.id_clanku'),
 	)
-	->from('clanky')->as('C')
+	->from('clanky')
+	->as('C')
 	->where('id_clanku=%i', 123)
 	->limit(1)
 	->offset(0);
@@ -104,9 +111,12 @@ Assert::same(
 $fluent = $conn->select('*')
 	->select(['x' => 'xAlias'])
 	->from('products')
-	->innerJoin('orders')->using('(product_id)')
-	->innerJoin('customers')->using('([customer_id])')
-	->innerJoin('items')->using('(%n)', ['customer_id', 'order_id']);
+	->innerJoin('orders')
+	->using('(product_id)')
+	->innerJoin('customers')
+	->using('([customer_id])')
+	->innerJoin('items')
+	->using('(%n)', ['customer_id', 'order_id']);
 
 Assert::same(
 	reformat('SELECT * , [x] AS [xAlias] FROM [products] INNER JOIN [orders] USING (product_id) INNER JOIN [customers] USING ([customer_id]) INNER JOIN [items] USING ([customer_id], [order_id])'),
@@ -118,7 +128,8 @@ Assert::same(
 $fluent = $conn->command()->select()
 	->from('products')
 	->select('*')
-	->innerJoin('orders')->using('(product_id)');
+	->innerJoin('orders')
+	->using('(product_id)');
 
 Assert::same(
 	reformat('SELECT * FROM [products] INNER JOIN [orders] USING (product_id)'),

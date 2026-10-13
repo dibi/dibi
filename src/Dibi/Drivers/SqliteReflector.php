@@ -33,7 +33,7 @@ class SqliteReflector implements Dibi\Reflector
 			ORDER BY name
 		") ?? throw new \LogicException('Unexpected null result.');
 		$tables = [];
-		while ($row = $res->fetch(true)) {
+		while ($row = $res->fetch(assoc: true)) {
 			$tables[] = $row;
 		}
 
@@ -50,7 +50,7 @@ class SqliteReflector implements Dibi\Reflector
 		$res = $this->driver->query("PRAGMA table_info({$this->driver->escapeIdentifier($table)})")
 			?? throw new \LogicException('Unexpected null result.');
 		$columns = [];
-		while ($row = $res->fetch(true)) {
+		while ($row = $res->fetch(assoc: true)) {
 			$column = $row['name'];
 			$type = explode('(', $row['type']);
 			$columns[] = [
@@ -78,7 +78,7 @@ class SqliteReflector implements Dibi\Reflector
 		$res = $this->driver->query("PRAGMA index_list({$this->driver->escapeIdentifier($table)})")
 			?? throw new \LogicException('Unexpected null result.');
 		$indexes = [];
-		while ($row = $res->fetch(true)) {
+		while ($row = $res->fetch(assoc: true)) {
 			$indexes[$row['name']]['name'] = $row['name'];
 			$indexes[$row['name']]['unique'] = (bool) $row['unique'];
 			$indexes[$row['name']]['columns'] = [];
@@ -87,7 +87,7 @@ class SqliteReflector implements Dibi\Reflector
 		foreach ($indexes as $index => $values) {
 			$res = $this->driver->query("PRAGMA index_info({$this->driver->escapeIdentifier($index)})")
 				?? throw new \LogicException('Unexpected null result.');
-			while ($row = $res->fetch(true)) {
+			while ($row = $res->fetch(assoc: true)) {
 				$indexes[$index]['columns'][$row['seqno']] = $row['name'];
 			}
 		}
@@ -132,7 +132,7 @@ class SqliteReflector implements Dibi\Reflector
 		$res = $this->driver->query("PRAGMA foreign_key_list({$this->driver->escapeIdentifier($table)})")
 			?? throw new \LogicException('Unexpected null result.');
 		$keys = [];
-		while ($row = $res->fetch(true)) {
+		while ($row = $res->fetch(assoc: true)) {
 			$keys[$row['id']]['name'] = $row['id']; // foreign key name
 			$keys[$row['id']]['local'][$row['seq']] = $row['from']; // local columns
 			$keys[$row['id']]['table'] = $row['table']; // referenced table

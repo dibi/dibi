@@ -29,7 +29,6 @@ class Event
 		TRANSACTION = 448, // BEGIN | COMMIT | ROLLBACK
 		ALL = 1023;
 
-	public readonly Connection $connection;
 	public int $type;
 	public readonly string $sql;
 	public Result|DriverException|null $result = null;
@@ -40,9 +39,11 @@ class Event
 	public ?array $source = null;
 
 
-	public function __construct(Connection $connection, int $type, ?string $sql = null)
-	{
-		$this->connection = $connection;
+	public function __construct(
+		public readonly Connection $connection,
+		int $type,
+		?string $sql = null,
+	) {
 		$this->type = $type;
 		$this->sql = trim((string) $sql);
 		$this->time = -microtime(as_float: true);

@@ -15,7 +15,8 @@ $arr = [
 ];
 
 $fluent = $conn->insert('table', $arr)
-	->setFlag('IGNORE')->setFlag('DELAYED');
+	->setFlag('IGNORE')
+	->setFlag('DELAYED');
 
 Assert::same(
 	reformat('INSERT IGNORE DELAYED INTO [table] ([title], [price], [brand]) VALUES (\'Super Product\', 12, NULL)'),

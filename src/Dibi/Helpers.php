@@ -303,6 +303,7 @@ class Helpers
 			}
 
 			return (int) $value;
+
 		} else {
 			throw new Exception("Expected number, '$value' given.");
 		}

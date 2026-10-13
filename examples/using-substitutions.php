@@ -27,6 +27,7 @@ $dibi->test('SELECT * FROM [:blog:items]');
 $dibi->getSubstitutes()->{''} = 'my_';
 
 $dibi->test("UPDATE ::table SET [text]='Hello World'");
+
 // -> UPDATE my_table SET [text]='Hello World'
 
 

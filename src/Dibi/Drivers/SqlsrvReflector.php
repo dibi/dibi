@@ -30,7 +30,7 @@ class SqlsrvReflector implements Dibi\Reflector
 		$res = $this->driver->query("SELECT TABLE_NAME, TABLE_TYPE FROM INFORMATION_SCHEMA.TABLES WHERE [TABLE_SCHEMA] = 'dbo'")
 			?? throw new \LogicException('Unexpected null result.');
 		$tables = [];
-		while ($row = $res->fetch(false)) {
+		while ($row = $res->fetch(assoc: false)) {
 			$tables[] = [
 				'name' => $row[0],
 				'view' => isset($row[1]) && $row[1] === 'VIEW',
@@ -54,7 +54,7 @@ class SqlsrvReflector implements Dibi\Reflector
 		") ?? throw new \LogicException('Unexpected null result.');
 
 		$autoIncrements = [];
-		while ($row = $res->fetch(true)) {
+		while ($row = $res->fetch(assoc: true)) {
 			$autoIncrements[$row['COLUMN_NAME']] = (bool) $row['AUTO_INCREMENT'];
 		}
 
@@ -74,7 +74,7 @@ class SqlsrvReflector implements Dibi\Reflector
 			WHERE C.TABLE_NAME = {$this->driver->escapeText($table)}
 		") ?? throw new \LogicException('Unexpected null result.');
 		$columns = [];
-		while ($row = $res->fetch(true)) {
+		while ($row = $res->fetch(assoc: true)) {
 			$columns[] = [
 				'name' => $row['COLUMN_NAME'],
 				'table' => $table,
@@ -99,14 +99,14 @@ class SqlsrvReflector implements Dibi\Reflector
 		$keyUsagesRes = $this->driver->query(sprintf('EXEC [sys].[sp_helpindex] @objname = %s', $this->driver->escapeText($table)))
 			?? throw new \LogicException('Unexpected null result.');
 		$keyUsages = [];
-		while ($row = $keyUsagesRes->fetch(true)) {
+		while ($row = $keyUsagesRes->fetch(assoc: true)) {
 			$keyUsages[$row['index_name']] = explode(',', $row['index_keys']);
 		}
 
 		$res = $this->driver->query("SELECT [i].* FROM [sys].[indexes] [i] INNER JOIN [sys].[tables] [t] ON [i].[object_id] = [t].[object_id] WHERE [t].[name] = {$this->driver->escapeText($table)}")
 			?? throw new \LogicException('Unexpected null result.');
 		$indexes = [];
-		while ($row = $res->fetch(true)) {
+		while ($row = $res->fetch(assoc: true)) {
 			$indexes[$row['name']]['name'] = $row['name'];
 			$indexes[$row['name']]['unique'] = $row['is_unique'] === 1;
 			$indexes[$row['name']]['primary'] = $row['is_primary_key'] === 1;
