@@ -8,7 +8,6 @@
 namespace Dibi\Loggers;
 
 use Dibi;
-use function sprintf;
 use const FILE_APPEND, LOCK_EX;
 
 

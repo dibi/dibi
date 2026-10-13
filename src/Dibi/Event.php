@@ -7,8 +7,7 @@
 
 namespace Dibi;
 
-use function count, dirname, microtime, preg_match, str_starts_with, strtoupper, trim;
-use const DIRECTORY_SEPARATOR;
+use function count;
 
 
 /**

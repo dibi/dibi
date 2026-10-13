@@ -7,7 +7,7 @@
 
 namespace Dibi;
 
-use function array_keys, count, str_starts_with;
+use function count;
 
 
 /**

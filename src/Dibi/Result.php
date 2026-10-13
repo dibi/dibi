@@ -7,7 +7,7 @@
 
 namespace Dibi;
 
-use function array_keys, array_pop, count, explode, is_float, is_string, json_decode, ltrim, preg_match, preg_split, property_exists, reset, rtrim, str_contains, str_replace, str_starts_with, strpos;
+use function count, is_float, is_string;
 use const PREG_SPLIT_DELIM_CAPTURE, PREG_SPLIT_NO_EMPTY;
 
 

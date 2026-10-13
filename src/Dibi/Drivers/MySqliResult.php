@@ -8,7 +8,6 @@
 namespace Dibi\Drivers;
 
 use Dibi;
-use const MYSQLI_TYPE_LONG, MYSQLI_TYPE_SHORT, MYSQLI_TYPE_TIME, MYSQLI_TYPE_TINY;
 
 
 /**

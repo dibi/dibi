@@ -8,7 +8,7 @@
 namespace Dibi\Drivers;
 
 use Dibi;
-use function in_array, is_resource;
+use function extension_loaded, in_array, is_resource;
 
 
 /**
@@ -107,13 +107,13 @@ class OracleDriver implements Dibi\Driver
 
 	public static function createException(string $message, int|string $code, string $sql): Dibi\DriverException
 	{
-		if (in_array($code, [1, 2299, 38911], strict: true)) {
+		if (in_array($code, [1, 2299, 38911], true)) {
 			return new Dibi\UniqueConstraintViolationException($message, $code, $sql);
 
-		} elseif (in_array($code, [1400], strict: true)) {
+		} elseif (in_array($code, [1400], true)) {
 			return new Dibi\NotNullConstraintViolationException($message, $code, $sql);
 
-		} elseif (in_array($code, [2266, 2291, 2292], strict: true)) {
+		} elseif (in_array($code, [2266, 2291, 2292], true)) {
 			return new Dibi\ForeignKeyConstraintViolationException($message, $code, $sql);
 
 		} else {

@@ -7,7 +7,7 @@
 
 namespace Dibi;
 
-use function func_get_args, is_array, strpbrk;
+use function func_get_args, is_array;
 
 
 /**

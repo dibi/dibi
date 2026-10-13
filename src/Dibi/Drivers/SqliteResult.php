@@ -9,7 +9,6 @@ namespace Dibi\Drivers;
 
 use Dibi;
 use Dibi\Helpers;
-use const SQLITE3_ASSOC, SQLITE3_BLOB, SQLITE3_FLOAT, SQLITE3_INTEGER, SQLITE3_NULL, SQLITE3_NUM, SQLITE3_TEXT;
 
 
 /**

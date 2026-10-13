@@ -8,8 +8,7 @@
 namespace Dibi\Drivers;
 
 use Dibi;
-use function in_array;
-use const MYSQLI_REPORT_OFF, MYSQLI_STORE_RESULT, MYSQLI_USE_RESULT, PREG_SET_ORDER;
+use function extension_loaded, in_array, ini_get;
 
 
 /**
@@ -166,13 +165,13 @@ class MySqliDriver implements Dibi\Driver
 
 	public static function createException(string $message, int|string $code, string $sql): Dibi\DriverException
 	{
-		if (in_array($code, [1216, 1217, 1451, 1452, 1701], strict: true)) {
+		if (in_array($code, [1216, 1217, 1451, 1452, 1701], true)) {
 			return new Dibi\ForeignKeyConstraintViolationException($message, $code, $sql);
 
-		} elseif (in_array($code, [1062, 1557, 1569, 1586], strict: true)) {
+		} elseif (in_array($code, [1062, 1557, 1569, 1586], true)) {
 			return new Dibi\UniqueConstraintViolationException($message, $code, $sql);
 
-		} elseif (in_array($code, [1048, 1121, 1138, 1171, 1252, 1263, 1566], strict: true)) {
+		} elseif (in_array($code, [1048, 1121, 1138, 1171, 1252, 1263, 1566], true)) {
 			return new Dibi\NotNullConstraintViolationException($message, $code, $sql);
 
 		} else {

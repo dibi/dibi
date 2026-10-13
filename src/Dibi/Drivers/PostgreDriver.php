@@ -10,7 +10,7 @@ namespace Dibi\Drivers;
 use Dibi;
 use Dibi\Helpers;
 use PgSql;
-use function in_array, is_array, strlen;
+use function extension_loaded, is_array, strlen;
 
 
 /**
@@ -222,7 +222,7 @@ class PostgreDriver implements Dibi\Driver
 	 */
 	public function inTransaction(): bool
 	{
-		return !in_array(pg_transaction_status($this->connection), [PGSQL_TRANSACTION_UNKNOWN, PGSQL_TRANSACTION_IDLE], strict: true);
+		return !in_array(pg_transaction_status($this->connection), [PGSQL_TRANSACTION_UNKNOWN, PGSQL_TRANSACTION_IDLE], true);
 	}
 
 

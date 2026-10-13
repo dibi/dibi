@@ -9,7 +9,7 @@ namespace Dibi\Drivers;
 
 use Dibi;
 use Dibi\Helpers;
-use function is_resource, sprintf;
+use function extension_loaded, is_resource, sprintf;
 
 
 /**

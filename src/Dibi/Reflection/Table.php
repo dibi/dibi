@@ -8,7 +8,6 @@
 namespace Dibi\Reflection;
 
 use Dibi;
-use function array_values, strtolower;
 
 
 /**

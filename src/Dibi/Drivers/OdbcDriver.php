@@ -8,7 +8,7 @@
 namespace Dibi\Drivers;
 
 use Dibi;
-use function is_resource;
+use function extension_loaded, ini_get, is_resource;
 
 
 /**

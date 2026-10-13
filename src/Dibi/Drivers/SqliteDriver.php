@@ -10,6 +10,7 @@ namespace Dibi\Drivers;
 use Dibi;
 use Dibi\Helpers;
 use SQLite3;
+use function extension_loaded;
 
 
 /**
