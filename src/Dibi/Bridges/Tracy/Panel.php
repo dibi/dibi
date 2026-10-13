@@ -119,7 +119,7 @@ class Panel implements Tracy\IBarPanel
 					? $this->explain
 					: ($connection->getConfig('driver') === 'oracle' ? 'EXPLAIN PLAN FOR' : 'EXPLAIN');
 				try {
-					$explain = @Helpers::dump($connection->nativeQuery("$cmd $event->sql"), return: true);
+					$explain = @Helpers::dump($connection->nativeQuery("$cmd $event->sql"), return: true); // @ the result of EXPLAIN may not be fetchable, e.g. on Oracle
 				} catch (Dibi\Exception) {
 				}
 

@@ -70,7 +70,7 @@ class PdoResult implements Dibi\ResultDriver
 		$count = $this->resultSet->columnCount();
 		$columns = [];
 		for ($i = 0; $i < $count; $i++) {
-			$row = @$this->resultSet->getColumnMeta($i); // intentionally @
+			$row = @$this->resultSet->getColumnMeta($i); // @ is escalated to exception
 			if ($row === false) {
 				throw new Dibi\NotSupportedException('Driver does not support meta data.');
 			}

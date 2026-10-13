@@ -77,7 +77,7 @@ class SqliteDriver implements Dibi\Driver
 	 */
 	public function query(string $sql): ?Dibi\ResultDriver
 	{
-		$res = @$this->connection->query($sql); // intentionally @
+		$res = @$this->connection->query($sql); // @ is escalated to exception
 		if ($code = $this->connection->lastErrorCode()) {
 			throw static::createException($this->connection->lastErrorMsg(), $code, $sql);
 

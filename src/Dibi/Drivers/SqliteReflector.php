@@ -140,7 +140,7 @@ class SqliteReflector implements Dibi\Reflector
 			$keys[$row['id']]['onDelete'] = $row['on_delete'];
 			$keys[$row['id']]['onUpdate'] = $row['on_update'];
 
-			if ($keys[$row['id']]['foreign'][0] == null) {
+			if ($keys[$row['id']]['foreign'][0] == null) { // intentionally ==, skips null and empty string
 				$keys[$row['id']]['foreign'] = null;
 			}
 		}

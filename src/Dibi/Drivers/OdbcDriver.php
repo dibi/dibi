@@ -51,8 +51,8 @@ class OdbcDriver implements Dibi\Driver
 			];
 
 			$this->connection = empty($config['persistent'])
-				? @odbc_connect($config['dsn'], $config['username'] ?? '', $config['password'] ?? '') // intentionally @
-				: @odbc_pconnect($config['dsn'], $config['username'] ?? '', $config['password'] ?? ''); // intentionally @
+				? @odbc_connect($config['dsn'], $config['username'] ?? '', $config['password'] ?? '') // @ is escalated to exception
+				: @odbc_pconnect($config['dsn'], $config['username'] ?? '', $config['password'] ?? ''); // @ is escalated to exception
 		}
 
 		if (!is_resource($this->connection)) {
@@ -81,7 +81,7 @@ class OdbcDriver implements Dibi\Driver
 	public function query(string $sql): ?Dibi\ResultDriver
 	{
 		$this->affectedRows = null;
-		$res = @odbc_exec($this->connection, $sql); // intentionally @
+		$res = @odbc_exec($this->connection, $sql); // @ is escalated to exception
 
 		if ($res === false) {
 			throw new Dibi\DriverException(odbc_errormsg($this->connection) . ' ' . odbc_error($this->connection), 0, $sql);

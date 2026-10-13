@@ -40,8 +40,8 @@ class FirebirdResult implements Dibi\ResultDriver
 	public function fetch(bool $assoc): ?array
 	{
 		$result = $assoc
-			? @ibase_fetch_assoc($this->resultSet, IBASE_TEXT)
-			: @ibase_fetch_row($this->resultSet, IBASE_TEXT); // intentionally @
+			? @ibase_fetch_assoc($this->resultSet, IBASE_TEXT) // @ is escalated to exception
+			: @ibase_fetch_row($this->resultSet, IBASE_TEXT); // @ is escalated to exception
 
 		if (ibase_errcode()) {
 			if ((int) ibase_errcode() === FirebirdDriver::ERROR_EXCEPTION_THROWN) {

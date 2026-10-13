@@ -64,8 +64,8 @@ class FirebirdDriver implements Dibi\Driver
 			];
 
 			$this->connection = empty($config['persistent'])
-				? @ibase_connect($config['database'], $config['username'], $config['password'], $config['charset'], $config['buffers']) // intentionally @
-				: @ibase_pconnect($config['database'], $config['username'], $config['password'], $config['charset'], $config['buffers']); // intentionally @
+				? @ibase_connect($config['database'], $config['username'], $config['password'], $config['charset'], $config['buffers']) // @ is escalated to exception
+				: @ibase_pconnect($config['database'], $config['username'], $config['password'], $config['charset'], $config['buffers']); // @ is escalated to exception
 
 			if (!is_resource($this->connection)) {
 				throw new Dibi\DriverException(ibase_errmsg(), ibase_errcode());

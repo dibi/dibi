@@ -242,9 +242,9 @@ class Helpers
 	 */
 	public static function loadFromFile(Connection $connection, string $file, ?callable $onProgress = null): int
 	{
-		@set_time_limit(0); // intentionally @
+		@set_time_limit(0); // @ function may be disabled
 
-		$handle = @fopen($file, 'r'); // intentionally @
+		$handle = @fopen($file, 'r'); // @ is escalated to exception
 		if (!$handle) {
 			throw new \RuntimeException("Cannot open file '$file'.");
 		}

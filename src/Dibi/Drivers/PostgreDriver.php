@@ -117,7 +117,7 @@ class PostgreDriver implements Dibi\Driver
 	public function query(string $sql): ?Dibi\ResultDriver
 	{
 		$this->affectedRows = null;
-		$res = @pg_query($this->connection, $sql); // intentionally @
+		$res = @pg_query($this->connection, $sql); // @ is escalated to exception
 		if (!$res instanceof PgSql\Result) {
 			throw static::createException(pg_last_error($this->connection), sql: $sql);
 		}

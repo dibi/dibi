@@ -93,7 +93,7 @@ class MySqliDriver implements Dibi\Driver
 				}
 			}
 
-			@$this->connection->real_connect( // intentionally @
+			@$this->connection->real_connect( // @ is escalated to exception
 				(empty($config['persistent']) ? '' : 'p:') . $config['host'],
 				$config['username'],
 				$config['password'] ?? '',
@@ -109,7 +109,7 @@ class MySqliDriver implements Dibi\Driver
 		}
 
 		if (isset($config['charset'])) {
-			if (!@$this->connection->set_charset($config['charset'])) {
+			if (!$this->connection->set_charset($config['charset'])) {
 				$this->query("SET NAMES '$config[charset]'");
 			}
 		}
@@ -150,7 +150,7 @@ class MySqliDriver implements Dibi\Driver
 	 */
 	public function query(string $sql): ?Dibi\ResultDriver
 	{
-		$res = @$this->connection->query($sql, $this->buffered ? MYSQLI_STORE_RESULT : MYSQLI_USE_RESULT); // intentionally @
+		$res = @$this->connection->query($sql, $this->buffered ? MYSQLI_STORE_RESULT : MYSQLI_USE_RESULT); // @ is escalated to exception
 
 		if ($code = mysqli_errno($this->connection)) {
 			throw static::createException(mysqli_error($this->connection), $code, $sql);
@@ -256,7 +256,7 @@ class MySqliDriver implements Dibi\Driver
 	public function getResource(): ?\mysqli
 	{
 		try {
-			return @$this->connection->thread_id ? $this->connection : null;
+			return $this->connection->thread_id ? $this->connection : null;
 		} catch (\Throwable) {
 			return null;
 		}

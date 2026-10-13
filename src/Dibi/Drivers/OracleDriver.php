@@ -50,8 +50,8 @@ class OracleDriver implements Dibi\Driver
 			$this->connection = $config['resource'];
 		} else {
 			$conn = empty($config['persistent'])
-				? @oci_new_connect($config['username'], $config['password'], $config['database'], $config['charset']) // intentionally @
-				: @oci_pconnect($config['username'], $config['password'], $config['database'], $config['charset']); // intentionally @
+				? @oci_new_connect($config['username'], $config['password'], $config['database'], $config['charset']) // @ is escalated to exception
+				: @oci_pconnect($config['username'], $config['password'], $config['database'], $config['charset']); // @ is escalated to exception
 
 			if (!$conn) {
 				$err = oci_error() ?: ['message' => 'Unknown error', 'code' => 0];
@@ -85,7 +85,7 @@ class OracleDriver implements Dibi\Driver
 		$this->affectedRows = null;
 		$res = oci_parse($this->connection, $sql);
 		if ($res) {
-			@oci_execute($res, $this->autocommit ? OCI_COMMIT_ON_SUCCESS : OCI_DEFAULT);
+			@oci_execute($res, $this->autocommit ? OCI_COMMIT_ON_SUCCESS : OCI_DEFAULT); // @ is escalated to exception
 			$err = oci_error($res);
 			if ($err) {
 				throw static::createException($err['message'], $err['code'], $sql);
