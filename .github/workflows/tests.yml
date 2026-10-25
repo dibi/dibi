@@ -18,7 +18,7 @@ jobs:
         name: PHP ${{ matrix.php }} tests
 
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
 
             - name: Start database containers
               run: docker compose up -d --wait --quiet-pull
@@ -28,24 +28,23 @@ jobs:
                   php-version: ${{ matrix.php }}
                   extensions: ${{ env.php-extensions }}
                   tools: ${{ env.php-tools }}
-                  coverage: none
+                  coverage: pcov
 
             - name: Create databases.ini
               run: cp ./tests/databases.docker.ini ./tests/databases.ini
 
             - run: composer install --no-progress --prefer-dist
-            - run: composer tester -- -p phpdbg --coverage ./coverage.xml --coverage-src ./src
+            - run: composer tester -- --coverage ./coverage.xml --coverage-src ./src
             - if: failure()
-              uses: actions/upload-artifact@v4
+              uses: actions/upload-artifact@v7
               with:
                   name: output-${{ matrix.php }}
                   path: tests/**/output
 
 
             - name: Save Code Coverage
-              if: ${{ matrix.php == '8.2' }}
-              env:
-                  COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: |
-                  wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.4.3/php-coveralls.phar
-                  php php-coveralls.phar --verbose --config tests/.coveralls.yml
+              if: ${{ !cancelled() && matrix.php == '8.2' }}
+              uses: coverallsapp/github-action@v2
+              with:
+                  file: coverage.xml
+                  format: clover
