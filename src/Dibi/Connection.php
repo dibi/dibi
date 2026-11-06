@@ -157,21 +157,22 @@ class Connection
 			$this->driver = new $class($this->config);
 			$this->translator = new Translator($this);
 
-			if ($event) {
-				$this->onEvent($event->done());
-			}
-
-			if (isset($this->config['onConnect'])) {
-				foreach ($this->config['onConnect'] as $sql) {
-					$this->query($sql);
-				}
-			}
 		} catch (DriverException $e) {
 			if ($event) {
 				$this->onEvent($event->done($e));
 			}
 
 			throw $e;
+		}
+
+		if ($event) {
+			$this->onEvent($event->done());
+		}
+
+		if (isset($this->config['onConnect'])) {
+			foreach ($this->config['onConnect'] as $sql) {
+				$this->query($sql);
+			}
 		}
 	}
 
@@ -369,15 +370,17 @@ class Connection
 		$event = $this->onEvent ? new Event($this, Event::BEGIN, $savepoint) : null;
 		try {
 			$this->driver->begin($savepoint);
-			if ($event) {
-				$this->onEvent($event->done());
-			}
+
 		} catch (DriverException $e) {
 			if ($event) {
 				$this->onEvent($event->done($e));
 			}
 
 			throw $e;
+		}
+
+		if ($event) {
+			$this->onEvent($event->done());
 		}
 	}
 
@@ -399,15 +402,17 @@ class Connection
 		$event = $this->onEvent ? new Event($this, Event::COMMIT, $savepoint) : null;
 		try {
 			$this->driver->commit($savepoint);
-			if ($event) {
-				$this->onEvent($event->done());
-			}
+
 		} catch (DriverException $e) {
 			if ($event) {
 				$this->onEvent($event->done($e));
 			}
 
 			throw $e;
+		}
+
+		if ($event) {
+			$this->onEvent($event->done());
 		}
 	}
 
@@ -429,15 +434,17 @@ class Connection
 		$event = $this->onEvent ? new Event($this, Event::ROLLBACK, $savepoint) : null;
 		try {
 			$this->driver->rollback($savepoint);
-			if ($event) {
-				$this->onEvent($event->done());
-			}
+
 		} catch (DriverException $e) {
 			if ($event) {
 				$this->onEvent($event->done($e));
 			}
 
 			throw $e;
+		}
+
+		if ($event) {
+			$this->onEvent($event->done());
 		}
 	}
 
